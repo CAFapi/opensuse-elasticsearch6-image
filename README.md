@@ -1,0 +1,1 @@
+# opensuse-elasticsearch6-image
