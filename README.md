@@ -1,8 +1,8 @@
 # openSUSE and Elasticsearch 6.3.2 image
 
-This project builds on the openSUSE Java image [here](https://github.com/CAFapi/opensuse-jre8-image) to build a pre-configured Elasticsearch 6.3.2 Docker image.
+This project builds on the openSUSE Java image [here](https://github.com/CAFapi/opensuse-jre8-image) to build a pre-configured Elasticsearch 6 Docker image.
 
-They can be used as a base image for any projects which use Elasticsearch.
+It can be used as a base image for any projects which use Elasticsearch.
 
 ### Tini
 [Tini](https://github.com/krallin/tini) is pre-installed in the container.  If the image entrypoint is not overwritten then it will be automatically used.
