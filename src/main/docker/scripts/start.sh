@@ -15,4 +15,4 @@
 # limitations under the License.
 #
 
-exec /opt/elasticsearch/bin/elasticsearch -Des.insecure.allow.root=true
+exec /opt/elasticsearch/bin/elasticsearch
