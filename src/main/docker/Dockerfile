@@ -15,7 +15,7 @@
 #
 
 # Preliminary image that includes Elasticsearch and related files
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.4.2 AS builder
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.3.2 AS builder
 
 #
 # The actual image definition
