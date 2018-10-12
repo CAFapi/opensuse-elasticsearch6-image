@@ -25,15 +25,13 @@ FROM cafapi/opensuse-jre8:1
 ENV ELASTIC_CONTAINER=true
 
 COPY --from=es6-image /opt/jdk-10.0.2/ /opt/jdk-10.0.2/
-ENV JAVA_HOME=/opt/jdk-10.0.2
-
 # Copy java certs and set link to them
 COPY --from=es6-image /etc/pki/ca-trust /etc/pki/ca-trust
 RUN ln -sf /etc/pki/ca-trust/extracted/java/cacerts /opt/jdk-10.0.2/lib/security/cacerts
 
 # Install packages
-RUN zypper --non-interactive -n install which hostname netcat-openbsd unzip wget
-RUN zypper --non-interactive clean --all
+RUN zypper -n install which hostname netcat-openbsd unzip wget
+RUN zypper -n clean --all
 
 RUN mkdir -p /usr/share/elasticsearch
 # Create group, user and set access rights to the elasticsearch base dir
@@ -60,6 +58,7 @@ RUN chgrp 0 /usr/local/bin/docker-entrypoint.sh && \
 COPY scripts/ /opt/elasticsearch/scripts/
 RUN chmod +x /opt/elasticsearch/scripts/*
 
+# Startup Elasticsearch and expose ports
 EXPOSE 9200 9300
 CMD /opt/elasticsearch/scripts/start.sh
 
