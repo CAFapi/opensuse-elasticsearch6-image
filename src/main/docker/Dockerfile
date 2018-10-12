@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-# Preliminary image that includes Elasticsearch and related files
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.3.2 AS builder
+# Reference the official Elasticsearch 6 image
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.3.2 AS es6-image
 
 #
 # The actual image definition
@@ -24,14 +24,14 @@ FROM cafapi/opensuse-jre8:1
 
 ENV ELASTIC_CONTAINER=true
 
-COPY --from=builder /opt/jdk-10.0.2/ /opt/jdk-10.0.2/
+COPY --from=es6-image /opt/jdk-10.0.2/ /opt/jdk-10.0.2/
 ENV JAVA_HOME=/opt/jdk-10.0.2
 
 # Copy java certs and set link to them
-COPY --from=builder /etc/pki/ca-trust /etc/pki/ca-trust
+COPY --from=es6-image /etc/pki/ca-trust /etc/pki/ca-trust
 RUN ln -sf /etc/pki/ca-trust/extracted/java/cacerts /opt/jdk-10.0.2/lib/security/cacerts
 
-# Instal packages
+# Install packages
 RUN zypper --non-interactive -n install which hostname netcat-openbsd unzip wget
 RUN zypper --non-interactive clean --all
 
@@ -44,7 +44,7 @@ RUN groupadd -g 1000 elasticsearch && \
 
 WORKDIR /usr/share/elasticsearch
 
-COPY --from=builder --chown=1000:0 /usr/share/elasticsearch/ /usr/share/elasticsearch/
+COPY --from=es6-image --chown=1000:0 /usr/share/elasticsearch/ /usr/share/elasticsearch/
 RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
 
 # Configure logging
@@ -52,14 +52,16 @@ COPY logging.yml /usr/share/elasticsearch/config
 
 ENV PATH=/usr/share/elasticsearch/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-COPY --from=builder --chown=1000:0 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY --from=es6-image --chown=1000:0 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chgrp 0 /usr/local/bin/docker-entrypoint.sh && \
     chmod g=u /etc/passwd && \
     chmod 0775 /usr/local/bin/docker-entrypoint.sh
 
+COPY scripts/ /opt/elasticsearch/scripts/
+RUN chmod +x /opt/elasticsearch/scripts/*
+
 EXPOSE 9200 9300
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["eswrapper"]
+CMD /opt/elasticsearch/scripts/start.sh
 
 # Tag the image
 ARG BUILD_NUMBER
