@@ -15,4 +15,5 @@
 # limitations under the License.
 #
 
-exec /opt/elasticsearch/bin/elasticsearch
+export JAVA_HOME=/opt/jdk-10.0.2
+exec /usr/local/bin/docker-entrypoint.sh "eswrapper"
