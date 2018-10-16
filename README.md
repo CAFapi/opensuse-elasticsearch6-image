@@ -4,6 +4,11 @@ This project builds on the openSUSE Java image [here](https://github.com/CAFapi/
 
 It can be used as a base image for any projects which use Elasticsearch.
 
+### Docker host setup
+[The `vm.max_map_count` kernel setting needs to be set on host to at least `262144` for production use](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode):
+
+`sysctl -w vm.max_map_count=262144`
+
 ### Tini
 [Tini](https://github.com/krallin/tini) is pre-installed in the container.  If the image entrypoint is not overwritten then it will be automatically used.
 
