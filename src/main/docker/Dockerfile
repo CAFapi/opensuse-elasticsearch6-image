@@ -43,7 +43,8 @@ RUN groupadd -g 1000 elasticsearch && \
 WORKDIR /usr/share/elasticsearch
 
 COPY --from=es6-image --chown=1000:0 /usr/share/elasticsearch/ /usr/share/elasticsearch/
-RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
+RUN ES_JAVA_OPTS="$(echo ${https_proxy} | sed -E 's/^.*:\/\/(.*):([0-9]*).*/-Dhttps.proxyHost=\1 -Dhttps.proxyPort=\2/')" \
+    /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
 
 # Configure logging
 COPY logging.yml /usr/share/elasticsearch/config
