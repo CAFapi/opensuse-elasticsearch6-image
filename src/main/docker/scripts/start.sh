@@ -15,5 +15,5 @@
 # limitations under the License.
 #
 
-export JAVA_HOME=/opt/jdk-10.0.2
+export JAVA_HOME=/opt/jdk-12.0.1
 exec /usr/local/bin/docker-entrypoint.sh "eswrapper"
