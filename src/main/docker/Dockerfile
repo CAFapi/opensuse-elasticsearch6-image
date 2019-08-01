@@ -15,7 +15,7 @@
 #
 
 # Reference the official Elasticsearch 6 image
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.3.2 AS es6-image
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.0 AS es6-image
 
 #
 # The actual image definition
@@ -24,10 +24,10 @@ FROM cafapi/opensuse-jre8:1
 
 ENV ELASTIC_CONTAINER=true
 
-COPY --from=es6-image /opt/jdk-10.0.2/ /opt/jdk-10.0.2/
+COPY --from=es6-image /opt/jdk-12.0.1/ /opt/jdk-12.0.1/
 # Copy java certs and set link to them
 COPY --from=es6-image /etc/pki/ca-trust /etc/pki/ca-trust
-RUN ln -sf /etc/pki/ca-trust/extracted/java/cacerts /opt/jdk-10.0.2/lib/security/cacerts
+RUN ln -sf /etc/pki/ca-trust/extracted/java/cacerts /opt/jdk-12.0.1/lib/security/cacerts
 
 # Install packages
 RUN zypper -n install which hostname netcat-openbsd unzip wget

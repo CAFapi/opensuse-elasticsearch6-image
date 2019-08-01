@@ -1,4 +1,4 @@
-# openSUSE and Elasticsearch 6.3.2 image
+# openSUSE and Elasticsearch 6 image
 
 This project builds on the openSUSE Java 8 image [here](https://github.com/CAFapi/opensuse-java8-images) to build a pre-configured Elasticsearch 6 Docker image.
 
