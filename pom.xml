@@ -27,7 +27,7 @@
     <packaging>pom</packaging>
 
     <name>openSUSE Elasticsearch6 image</name>
-    <description>An openSUSE-based image which includes Elasticsearch version 6.3.2.</description>
+    <description>An openSUSE-based image which includes Elasticsearch version 6</description>
     <url>https://github.com/CAFapi/opensuse-elasticsearch6-image</url>
 
     <inceptionYear>2017</inceptionYear>
